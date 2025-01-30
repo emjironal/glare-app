@@ -160,7 +160,7 @@ const HotspotMarker = ({ projectId, hotspots, navigate, setCurrentHotspot }) => 
             zIndexOffset={-1}
             title={name}
             position={[latitude, longitude]}
-            icon={PointIcon((idx + 1).toString(), pin_color)}
+            //icon={PointIcon((idx + 1).toString(), pin_color)}
             eventHandlers={{
               click: () => {
                 setCurrentHotspot(hotspot);
