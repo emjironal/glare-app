@@ -4,6 +4,7 @@ import api from "../../api/api";
 import { Server } from "../../utils/config";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import { SaveIcon } from "@heroicons/react/outline";
+import LoadingOverlay from 'react-loading-overlay';
 import ShortUniqueId from "short-unique-id";
 import { Permission, Role } from "appwrite";
 import Menu from "./Menu";
@@ -124,9 +125,18 @@ const EditProject = ({ user }) => {
     response();
     deleteMedia();
   };
+  
+  const enableLoadingOverlay = () => {
+    document.getElementById("load-file-overlay").setAttribute("active", true)
+  };
+
+  const disableLoadingOverlay = () => {
+    document.getElementById("load-file-overlay").setAttribute("active", false)
+  }
 
   const newMedia = (bucket, media, object) => {
     const upload = async () => {
+      enableLoadingOverlay()
       let response = await api.createMedia(
         bucket,
         media,
@@ -137,6 +147,7 @@ const EditProject = ({ user }) => {
 
       let imageURL = await api.getMedia(bucket, response.$id);
       setHotspot({ ...hotspot, [object]: imageURL.href });
+      disableLoadingOverlay()
     };
     upload();
   };
@@ -207,6 +218,7 @@ const EditProject = ({ user }) => {
 
   const updateMenuMedia = (bucket, media, object, key) => {
     const upload = async () => {
+      enableLoadingOverlay()
       let response = await api.createMedia(
         bucket,
         media,
@@ -224,6 +236,7 @@ const EditProject = ({ user }) => {
           return obj;
         })
       );
+      disableLoadingOverlay()
     };
     upload();
   };
@@ -252,6 +265,7 @@ const EditProject = ({ user }) => {
 
   const updateLibraryMedia = (bucket, media, object, key) => {
     const upload = async () => {
+      enableLoadingOverlay()
       let response = await api.createMedia(
         bucket,
         media,
@@ -269,6 +283,7 @@ const EditProject = ({ user }) => {
           return obj;
         })
       );
+      disableLoadingOverlay()
     };
     upload();
   };
@@ -308,6 +323,13 @@ const EditProject = ({ user }) => {
 
   return (
     <>
+    <LoadingOverlay
+      id="load-file-overlay"
+      active={false}
+      spinner={true}
+      className="loading-spinner"
+      text='Loading your file...'
+    >
     { !saved ? (
       <div className="font-medium w-[90vw] bg-orange-400 py-4 rounded-lg px-6 shadow-2xl flex justify-between z-[999999] m-auto my-6">
         <p>Changes have been made. Please save your project.</p>
@@ -880,6 +902,7 @@ const EditProject = ({ user }) => {
 
        
       </div>
+    </LoadingOverlay>
     </>
   );
 };
