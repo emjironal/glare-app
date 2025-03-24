@@ -36,6 +36,7 @@ const EditProject = ({ user }) => {
   const { id } = useParams();
   const [saved, setSaved] = useState(true);
   const LongLatStep = 0.0001;
+  const [isUploadingFile, SetIsUploadingFile] = useState(false);
 
   const [library, setLibrary] = useState([]);
 
@@ -125,18 +126,10 @@ const EditProject = ({ user }) => {
     response();
     deleteMedia();
   };
-  
-  const enableLoadingOverlay = () => {
-    document.getElementById("load-file-overlay").setAttribute("active", true)
-  };
-
-  const disableLoadingOverlay = () => {
-    document.getElementById("load-file-overlay").setAttribute("active", false)
-  }
 
   const newMedia = (bucket, media, object) => {
     const upload = async () => {
-      enableLoadingOverlay()
+      SetIsUploadingFile(true)
       let response = await api.createMedia(
         bucket,
         media,
@@ -147,7 +140,7 @@ const EditProject = ({ user }) => {
 
       let imageURL = await api.getMedia(bucket, response.$id);
       setHotspot({ ...hotspot, [object]: imageURL.href });
-      disableLoadingOverlay()
+      SetIsUploadingFile(false)
     };
     upload();
   };
@@ -218,7 +211,7 @@ const EditProject = ({ user }) => {
 
   const updateMenuMedia = (bucket, media, object, key) => {
     const upload = async () => {
-      enableLoadingOverlay()
+      SetIsUploadingFile(true)
       let response = await api.createMedia(
         bucket,
         media,
@@ -236,7 +229,7 @@ const EditProject = ({ user }) => {
           return obj;
         })
       );
-      disableLoadingOverlay()
+      SetIsUploadingFile(false)
     };
     upload();
   };
@@ -265,7 +258,7 @@ const EditProject = ({ user }) => {
 
   const updateLibraryMedia = (bucket, media, object, key) => {
     const upload = async () => {
-      enableLoadingOverlay()
+      SetIsUploadingFile(true)
       let response = await api.createMedia(
         bucket,
         media,
@@ -283,7 +276,7 @@ const EditProject = ({ user }) => {
           return obj;
         })
       );
-      disableLoadingOverlay()
+      SetIsUploadingFile(false)
     };
     upload();
   };
@@ -324,8 +317,7 @@ const EditProject = ({ user }) => {
   return (
     <>
     <LoadingOverlay
-      id="load-file-overlay"
-      active={false}
+      active={isUploadingFile}
       spinner={true}
       className="loading-spinner"
       text='Loading your file...'
