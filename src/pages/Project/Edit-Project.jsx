@@ -435,7 +435,7 @@ const EditProject = ({ user }) => {
                   <button
                     onClick={() =>
                       setHotspots((hotspots) =>
-                        hotspots.filter((_, i) => i !== hotspots.length - 1)
+                        hotspots.filter((_, i) => i !== index)
                       )
                     }
                   >
