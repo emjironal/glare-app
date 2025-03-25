@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile
       args:
         REPOSITORY_URL: https://github.com/emjironal/glare-app
-        BRANCH_NAME: 9575079f8985c85c6b4176645f7c65a58ae4c482
+        BRANCH_NAME: e1aeec9e78491a0accdf4c865445b82df96a6ba5
         EXPOSED_PORT: 8090
     ports:
       - "8090:8090"
