@@ -69,9 +69,6 @@ function scrollToBottom() {
 
 const Home = ({ project }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    setOrientation();
-  }, []);
 
   function handleClick() {
     setFullScreen();
